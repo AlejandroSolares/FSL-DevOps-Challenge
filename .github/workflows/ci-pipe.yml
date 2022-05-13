@@ -1,0 +1,31 @@
+
+name: Ci-Pipe
+on:
+  pull_request:
+    branches: [main]
+
+Jobs:
+  build:
+    runs-on: ubuntu18.04
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version}}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version}}
+          cahce: 'npm'
+      - name: install dependecies
+        run: npm install --no-audit --no-fund
+      - name: prettier install
+        run: npm install --save-dev prettier-eslint
+      - name: lint
+        run: npm run lint
+      - name: prettier
+        run: npm run prettier-eslint
+      - name: build
+        run: npm run build
+      - name: Test
+        run: npm run Test
