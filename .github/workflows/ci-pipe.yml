@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
 
-Jobs:
+jobs:
   build:
     runs-on: ubuntu18.04
     strategy:
