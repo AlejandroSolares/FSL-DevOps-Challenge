@@ -4,9 +4,9 @@ on:
   pull_request:
     branches: [main]
 
-Jobs:
+jobs:
   build:
-    runs-on: ubuntu18.04
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         node-version: [12.x, 14.x]
@@ -29,3 +29,27 @@ Jobs:
         run: npm run build
       - name: Test
         run: npm run Test
+  e2e:
+    needs: [build]
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version}}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version}}
+          cahce: 'npm'
+      - name: e2e test
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start
+          wait: http://localhost:3000
+
+
+
+
+
