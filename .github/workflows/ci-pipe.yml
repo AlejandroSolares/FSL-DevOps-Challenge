@@ -28,7 +28,7 @@ jobs:
       - name: build
         run: npm run build
       - name: Test
-        run: npm run Test
+        run: npm run test
   e2e:
     needs: [build]
     runs-on: ubuntu-18.04
